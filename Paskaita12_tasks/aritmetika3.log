@@ -1,0 +1,14 @@
+2023-09-26 11:53:58,124:INFO:__main__:Musu skaiciai yra:(1, 4, 2, 5, 7, 8), ju suma yra: 27
+2023-09-26 11:53:58,124:ERROR:__main__:Irasytas ne skaicius
+Traceback (most recent call last):
+  File "C:\Users\edvin\PycharmProjects\Paskaita12_tasks\Task3.py", line 89, in sqrt
+    sqrt_number = math.sqrt(number)
+                  ^^^^^^^^^^^^^^^^^
+TypeError: must be real number, not str
+2023-09-26 11:53:58,126:INFO:__main__:Panaudotas zodis yra: Labas, mano vardas Mantas Simboliu sakinyje: 25 
+2023-09-26 11:53:58,126:ERROR:__main__:Dalyba is 0
+Traceback (most recent call last):
+  File "C:\Users\edvin\PycharmProjects\Paskaita12_tasks\Task3.py", line 112, in resultof
+    result = x/y
+             ~^~
+ZeroDivisionError: division by zero

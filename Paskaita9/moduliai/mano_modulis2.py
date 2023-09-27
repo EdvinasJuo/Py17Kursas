@@ -1,0 +1,1 @@
+kintamasis2 = "Testine zinute mano modulio 2"

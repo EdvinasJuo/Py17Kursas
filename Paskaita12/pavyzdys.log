@@ -1,0 +1,7 @@
+2023-09-26 09:34:24,757:ERROR:Dalyba is nulio negalima
+Traceback (most recent call last):
+  File "C:\Users\edvin\PycharmProjects\Paskaita12\pavyzdys.py", line 16, in dalyba
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero
+2023-09-26 09:34:24,760:INFO:Dalyba: 10 / 5 = None
