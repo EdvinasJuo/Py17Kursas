@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-4">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Paslaugų statistika</h3>
+            <p class="card-text">Paslaugų skaičius: {{ num_services_2 }}</p>
+            <p class="card-text">Pabaigtų užsakymų skaičius: {{ num_services_done }}</p>
+            <p class="card-text">Automobilių skaičius: {{ num_car }}</p>
+            <p>Jūs čia lankotes {{ num_visits }}-ą kartą</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

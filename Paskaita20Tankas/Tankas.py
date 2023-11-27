@@ -24,46 +24,21 @@ class Tankas:
     def pirmyn(self):
         if self.kryptis == "siaure":
             self.y += 1
-        elif self.kryptis == "rytai":
-            self.x += 1
-        elif self.kryptis == "pietus":
-            self.y -= 1
-        elif self.kryptis == "vakarai":
-            self.x -= 1
         self.pamazinti_taskai()
-
 
     def atgal(self):
         if self.kryptis == "siaure":
             self.y -= 1
-        elif self.kryptis == "rytai":
-            self.x -= 1
-        elif self.kryptis == "pietus":
-            self.y += 1
-        elif self.kryptis == "vakarai":
-            self.x += 1
         self.pamazinti_taskai()
 
     def kairen(self):
         if self.kryptis == "siaure":
             self.x -= 1
-        elif self.kryptis == "pietus":
-            self.x += 1
-        elif self.kryptis == "vakarai":
-            self.y -= 1
-        elif self.kryptis == "rytai":
-            self.y -= 1
         self.pamazinti_taskai()
 
     def desinen(self):
         if self.kryptis == "siaure":
             self.x += 1
-        elif self.kryptis == "pietus":
-            self.x += 1
-        elif self.kryptis == "vakarai":
-            self.y -= 1
-        elif self.kryptis == "rytai":
-            self.y -= 1
         self.pamazinti_taskai()
 
     def suvis(self):

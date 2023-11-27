@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        {% for car in cars %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                {% if car.cover %}
+                    <img src="{{ car.cover.url }}" alt="{{ car.car_model.make }} {{ car.model }}" class="card-img-top">
+                {% else %}
+                    <img src="{% static 'img/no-image.png' %}" class="card-img-top">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ car.car_model.make }} {{ car.car_model.model }}</h5>
+                    <p class="card-text">ID: {{ car.id }}</p>
+                    <a href="{% url 'car' car.id %}" class="btn btn-warning">Peržiūrėti informaciją</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="pagination">
+                {% if cars.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo; pirmas</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ cars.previous_page_number }}">atgal</a></li>
+                {% endif %}
+
+                <li class="page-item disabled">
+                    <span class="page-link">
+                        {{ cars.number }} iš {{ cars.paginator.num_pages }}
+                    </span>
+                </li>
+
+                {% if cars.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ cars.next_page_number }}">pirmyn</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ cars.paginator.num_pages }}">paskutinis
+                    &raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

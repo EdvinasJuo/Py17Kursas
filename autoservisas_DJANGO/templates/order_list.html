@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <table class="table table-light table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Data</th>
+            <th scope="col">Automobilis</th>
+            <th scope="col">Statusas</th>
+            <th scope="col">Veiksmai</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+        <tr>
+            <th scope="row">{{ order.id }}</th>
+            <td>{{ order.data }}</td>
+            <td>
+                {{ order.car.car_model.make }} {{ order.car.car_model.model }}<br>
+                License Plate: {{ order.car.license_plate }}<br>
+                VIN Code: {{ order.car.vin_code }}<br>
+                Client: {{ order.car.client }}
+            </td>
+            <td style="color: {% if order.status == 'p' %}green{% elif order.status == 'v' %}yellow{% else %}red{% endif %};">
+                {{ order.get_status_display }}
+            </td>
+            <td>
+                {% if order.reader == user %}
+                <div>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1"
+                       href="{% url 'my-order-update' order.id %}">Redaguoti</a>
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'my-order-delete' order.id %}">Ištrinti</a>
+                    <a href="{% url 'order' order.id %}" class="btn btn-sm btn-warning">Peržiūrėti užsakymą</a>
+
+                </div>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="btn btn-warning" href="{% url 'my-order-new'%}?next=/order">Naujas</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo; pirmas</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">atgal</a>
+                </li>
+                {% endif %}
+
+                <li class="page-item disabled">
+                    <span class="page-link">
+                        {{ page_obj.number }} iš {{ page_obj.paginator.num_pages }}
+                    </span>
+                </li>
+
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">pirmyn</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">paskutinis
+                    &raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

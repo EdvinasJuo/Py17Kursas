@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h3 class="text-center">Užsakymo informacija</h3>
+    <p>ID: {{ order.id }}</p>
+    <p>Data: {{ order.data }}</p>
+    <p>Statusas: {{ order.get_status_display }}</p>
+
+    <h4>Užsakymo eilutės</h4>
+    <table class="table table-light table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Paslauga</th>
+                <th scope="col">Kiekis</th>
+                <th scope="col">Vieneto kaina</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order_line in order.order_line_set.all %}
+                <tr>
+                    <p></p>
+                    <td>{{ order_line.service.name }}</td>
+                    <td>{{ order_line.quantity }}</td>
+                    <td>{{ order_line.service.price }} €</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

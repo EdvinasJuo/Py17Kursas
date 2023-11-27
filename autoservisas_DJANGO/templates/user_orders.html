@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Mano paslaugos</h1>
+
+    {% if order_list %}
+    <div class="container-fluid">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nuotrauka</th>
+                    <th>Automobilis</th>
+                    <th>Data</th>
+                    <th>Veiksmai</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in order_list %}
+                <tr class="{% if order.is_overdue %}text-danger{% endif %}">
+                    <td><img class="rounded-circle" src="{{ order.reader.profilis.nuotrauka.url }}"></td>
+                    <td><strong>{{ order.car }}</strong></td>
+                    <td>{{ order.data }}</td>
+                    <td>
+                        <a class="btn btn-warning" href="{% url 'car' order.car.id %}" role="button">Peržiūrėti</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% else %}
+    <p>Šiuo metu neatliekamos paslaugos.</p>
+    {% endif %}
+
+    {% block additional_content %}{% endblock %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "order_form.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {{ block.super }}
+    <!-- Papildoma turinio dalis antrajam formos šablonui -->
+    <div class="additional-content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Papildomi formos laukai</legend>
+                {{ second_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Išsaugoti papildomą formą</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
