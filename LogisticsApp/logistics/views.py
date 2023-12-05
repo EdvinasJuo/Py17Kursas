@@ -57,11 +57,16 @@ def orders(request):
         search_orders = Order.objects.filter(
             Q(customer__name__icontains=query) |
             Q(status__icontains=query) |
-            Q(order_date__icontains=query)
+            Q(order_date__icontains=query) |
+            Q(order_code__icontains=query)
         )
         context['all_orders'] = search_orders
 
     return render(request, 'orders.html', context=context)
+
+def order(request, order_id):
+    single_order = get_object_or_404(Order, pk=order_id)
+    return render(request, 'order.html', {'order': single_order})
 
 
 def products(request):
@@ -121,6 +126,10 @@ def vehicles(request):
         context['all_vehicles'] = search_vehicles
 
     return render(request, 'vehicles.html', context=context)
+
+def vehicle(request, vehicle_id):
+    single_vehicle = get_object_or_404(Vehicle, pk=vehicle_id)
+    return render(request, 'vehicle.html', {'vehicle': single_vehicle})
 
 def warehouses(request):
     all_warehouses = Warehouse.objects.all()

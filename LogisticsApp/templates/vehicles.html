@@ -33,7 +33,7 @@
                 <td>{{ vehicle.plate_number }}</td>
                 <td>{{ vehicle.get_status_display }}</td>
                 <td>
-                    <a href="#" class="btn btn-primary">Plačiau</a>
+                    <a href="{% url 'vehicle' vehicle.id %}" class="btn btn-primary">Plačiau</a>
                 </td>
             </tr>
             {% endfor %}
