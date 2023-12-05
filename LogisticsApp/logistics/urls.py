@@ -9,9 +9,11 @@ urlpatterns = [
     path('drivers/', views.drivers, name='drivers'),
     path('drivers/<int:driver_id>', views.driver, name='driver'),
     path('orders/', views.orders, name='orders'),
+    path('order/<int:order_id>', views.order, name='order'),
     path('produtcs/', views.products, name='products'),
     path('routes/', views.routes, name='routes'),
     path('routes/<int:route_id>', views.route, name='route'),
     path('vehicles/', views.vehicles, name='vehicles'),
+    path('vehicle/<int:vehicle_id>', views.vehicle, name='vehicle'),
     path('warehouses/', views.warehouses, name='warehouses'),
 ]

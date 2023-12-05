@@ -1,3 +1,4 @@
+import random
 import uuid
 
 from django.db import models
@@ -5,6 +6,7 @@ from django import forms
 from django.urls import reverse
 from django.utils import timezone
 from datetime import datetime
+
 
 # Create your models here.
 class Customer(models.Model):
@@ -23,6 +25,9 @@ class Customer(models.Model):
 
 class Vehicle(models.Model):
     type = models.CharField('Transporto tipas', max_length=80, help_text='Įveskite transporto priemonės tipą')
+    make = models.CharField('Gamintojas', max_length=50, help_text='Įveskite transporto priemonės gamintoją', blank=True, null=True)
+    model = models.CharField('Modelis', max_length=50, help_text='Įveskite transporto priemonės modelį', blank=True, null=True)
+    year = models.PositiveIntegerField('Metai', help_text='Įveskite transporto priemonės gamybos metus', blank=True, null=True)
     plate_number = models.CharField('Valstybinis nr.', max_length=20, help_text='Įveskite valstybinį numerį')
 
     VEHICLE_STATUS = (
@@ -54,18 +59,18 @@ class Driver(models.Model):
     name = models.CharField('Vardas Pavarde', max_length=80, help_text='Įveskite vairuotojo vardą ir pavardę')
     driver_number = models.CharField('Darbuotojo numeris', max_length=20, help_text='Įveskite darbuotojo numerį')
     phone_number = models.CharField('Tel.Nr', max_length=25, help_text='Įveskite Tel.Nr.')
-    email = models.CharField('El.Paštas', max_length=100, unique=True,  help_text='Įveskite el. paštą')
+    email = models.CharField('El.Paštas', max_length=100, unique=True, help_text='Įveskite el. paštą')
     vehicle = models.ForeignKey('Vehicle', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f'{self.name}'
 
 
-
 class Product(models.Model):
     name = models.CharField('Produktas', max_length=50, help_text='Įveskite produkto pavadinimą')
     unit_price = models.FloatField('Vieneto kaina', help_text='Įveskite vieneto kainą')
-    #Galimybe prideti quantity_in_stock
+
+    # Galimybe prideti quantity_in_stock
 
     def __str__(self):
         return f'{self.name} - {self.unit_price}€'
@@ -82,17 +87,27 @@ class Warehouse(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True)
     order_date = models.DateField()
+    order_code = models.CharField(max_length=10, unique=True, editable=False, null=True)
 
+    #kuriamas random ordercode su datos menesiu, diena ir 3 random skaiciais
     def save(self, *args, **kwargs):
         if not self.order_date:
             self.order_date = timezone.now().date()
-        super().save(*args, **kwargs)
+
+        if not self.order_code:
+            month = str(self.order_date.month).zfill(2)  # gaunamas menesis
+            day = str(self.order_date.day).zfill(2)  # gaunama diena
+            random_digits = ''.join(str(random.randint(0, 9)) for _ in range(3))
+
+            self.order_code = f'{month}{day}{random_digits}'
+
+        super().save(*args, **kwargs)  # saugojami pakeitimai duomenu bazeje
 
     ORDER_STATUS = (
         ('a', 'Administruojama'),
         ('v', 'Vykdomas'),
         ('b', 'Baigtas'),
-        ('a', 'Atšauktas'),
+        ('c', 'Atšauktas'),  # pakeistas 'a' į 'c', kad būtų unikalus
     )
 
     status = models.CharField(
@@ -108,14 +123,15 @@ class Order(models.Model):
     quantity = models.IntegerField('Kiekis', help_text='Įveskite produkto kiekį', default=0, null=False)
     warehouse = models.ForeignKey('Warehouse', on_delete=models.SET_NULL, null=True)
 
-    #Gaunamas value is ORDER_STATUS dictionary
+    # Gaunamas value is ORDER_STATUS dictionary
     def get_status_display_value(self):
         for code, display_value in self.ORDER_STATUS:
             if code == self.status:
                 return display_value
-        return self.status #Grazinamas kodas jeigu nerasta rezultatu
+        return self.status  # Grazinamas kodas jeigu nerasta rezultatu
 
     """Gaunama bendra produkto suma"""
+
     def get_total_price(self):
         if self.product and self.quantity:
             return self.product.unit_price * self.quantity
@@ -124,6 +140,7 @@ class Order(models.Model):
 
     def __str__(self):
         return (f'{self.customer}')
+
 
 
 class Route(models.Model):
@@ -137,6 +154,7 @@ class Route(models.Model):
         return (f'ID: {self.order.id}. Valstybinis nr: {self.vehicle.plate_number}. '
                 f'Išvykimo data: {self.departure}. Atvykimo data: {self.arrival} Išvyksta iš {self.warehouse} '
                 f'Vyksta į {self.order.customer.location}')
+
 
 class RouteForm(forms.ModelForm):
     class Meta:
