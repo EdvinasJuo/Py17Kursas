@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-3">
+    <h1 class="display-4">Logistikos app</h1>
+    <p class="lead">Sveiki atvykę į logistikos sistemą!</p>
+    <p class="lead">Šiuo metu turime:</p>
+    <ul class="list-group">
+      <li class="list-group-item"><strong>Užsakymų:</strong> {{ orders_count }}</li>
+      <li class="list-group-item"><strong>Vairuotojų:</strong> {{ drivers_count }}</li>
+    </ul>
+  </div>
+{% endblock %}
