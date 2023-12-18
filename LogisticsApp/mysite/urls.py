@@ -24,4 +24,6 @@ urlpatterns = [
     path('logistics/', include('logistics.urls')),
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(url='logistics/', permanent=True)), #'' nurodomas jeigu puslapis tuscias, kad redirectintu ir logistics
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('accounts/', include('django.contrib.auth.urls')),
+]+ (static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) +
+    static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))

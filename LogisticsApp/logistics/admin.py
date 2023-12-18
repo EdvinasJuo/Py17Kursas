@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Driver, Vehicle, Product, Order, Route, Customer, Warehouse
+from .models import Driver, Vehicle, Product, Order, Route, Customer, Warehouse, OrderReview, Profile
 
 # Register your models here.
 
@@ -8,11 +8,12 @@ class CustomerAdmin(admin.ModelAdmin):
     search_fields = ('name', 'email', 'phone_number')
 
 class VehicleAdmin(admin.ModelAdmin):
-    list_display = ('type', 'plate_number', 'status')
-    search_fields = ('plate_number', 'type', 'status')
+    list_display = ('type','make','model','year', 'plate_number', 'status')
+    search_fields = ('plate_number','make','model', 'year', 'type', 'status')
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'customer', 'order_date', 'get_status_display', 'get_product_name', 'get_unit_price', 'quantity', 'get_total_price')
+    list_display = ('id', 'customer', 'order_date', 'order_code', 'user', 'get_status_display',
+                    'get_product_name', 'get_unit_price', 'quantity', 'get_total_price')
 
     def get_product_name(self, obj):
         return obj.product.name if obj.product else ""
@@ -50,9 +51,13 @@ class RouteAdmin(admin.ModelAdmin):
     search_fields = ('order__customer__location', 'id', 'order__customer__name')
 class WarehouseAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'location')
-
     search_fields = ('id', 'name', 'location')
 
+class OrderReviewAdmin(admin.ModelAdmin):
+    list_display = ('order', 'date_created', 'reviewer', 'content')
+
+
+admin.site.register(Profile)
 admin.site.register(Driver, DriverAdmin)
 admin.site.register(Vehicle, VehicleAdmin)
 admin.site.register(Product, ProductAdmin)
@@ -60,3 +65,4 @@ admin.site.register(Order, OrderAdmin)
 admin.site.register(Route, RouteAdmin)
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Warehouse, WarehouseAdmin)
+admin.site.register(OrderReview, OrderReviewAdmin)
